@@ -43,7 +43,7 @@ func websocketHandleFunc(writer http.ResponseWriter, request *http.Request) {
 	// 2.开启给用户发消息的goroutine
 	go userHasToken.SendMessage(request.Context())
 	// 3.给当前用户发送欢迎消息
-	userHasToken.MessageChannel <- logic.NewWelcomeMessage(userHasToken)
+	userHasToken.SendMessageChannel(logic.NewWelcomeMessage(userHasToken))
 
 	// 避免token 泄漏
 	tmpUser := *userHasToken

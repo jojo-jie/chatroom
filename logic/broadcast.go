@@ -59,8 +59,7 @@ func (b *broadcaster) Start() {
 				if user.UID == msg.User.UID {
 					continue
 				}
-				log.Println("all case", user.Nickname, msg)
-				user.MessageChannel<-msg
+				user.SendMessageChannel(msg)
 			}
 			OfflineProcessor.Save(msg)
 		case nickname := <-b.checkUserChannel:

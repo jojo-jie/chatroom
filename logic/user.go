@@ -57,6 +57,10 @@ func NewUser(conn *websocket.Conn, token, nickname, addr string) *User {
 	return user
 }
 
+func (u *User) SendMessageChannel(msg *Message) {
+	u.MessageChannel <- msg
+}
+
 func (u *User) SendMessage(ctx context.Context) {
 	for msg := range u.MessageChannel {
 		wsjson.Write(ctx, u.conn, msg)
