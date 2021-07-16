@@ -142,7 +142,6 @@
                     };
 
                     gWS.onmessage = function (evt) {
-                        console.log("onmessage", evt)
                         let data = JSON.parse(evt.data);
                         if (data.type == 4) {
                             that.usertip = data.content;
@@ -273,6 +272,7 @@
             },
 
             addMsg2List: function(data) {
+                console.log(data)
                 if (data.content == "") {
                     return;
                 }
@@ -280,7 +280,9 @@
                 let that = this;
                 if (data.ats != null) {
                     data.ats.forEach(function(nickname) {
-                        if (nickname == '@'+that.nickname) {
+                        console.log(nickname)
+                        console.log('@'+that.nickname)
+                        if (nickname == '@'+that.curUser.nickname) {
                             that.usertip = '有人 @ 你了';
                         }
                     })

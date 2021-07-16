@@ -40,7 +40,6 @@ var Broadcaster = &broadcaster{
 // Start 启动一个广播器
 // 需要在一个新 goroutine 中运行，因为他不会返回
 func (b *broadcaster) Start() {
-	log.Println("广播器启动中...")
 	for {
 		select {
 		case user := <-b.enteringChannel:
@@ -87,7 +86,6 @@ func (b *broadcaster) UserLeaving(u *User) {
 }
 
 func (b broadcaster) Broadcast(msg *Message) {
-	log.Println("Broadcast.msg", msg)
 	if len(b.messageChannel) >= global.MessageQueueLen {
 		log.Println("broadcast queue 满了")
 	}

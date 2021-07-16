@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
 	"io"
+	"log"
 	"nhooyr.io/websocket"
 	"nhooyr.io/websocket/wsjson"
 	"regexp"
@@ -99,8 +100,9 @@ func (u *User) ReceiveMessage(ctx context.Context) error {
 		if err != nil {
 			return err
 		}
-
+		log.Println(sendMsg.Content)
 		sendMsg.Ats = reg.FindAllString(sendMsg.Content, -1)
+		log.Println(sendMsg.Ats)
 		Broadcaster.Broadcast(sendMsg)
 	}
 }

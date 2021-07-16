@@ -24,15 +24,12 @@ func websocketHandleFunc(writer http.ResponseWriter, request *http.Request) {
 	nickname := request.FormValue("nickname")
 
 	if l := len(nickname); l < 2 || l > 20 {
-		log.Println("nickname illegal:", nickname)
 		wsjson.Write(request.Context(), conn, logic.NewErrorMessage("非法昵称，昵称长度：2-20"))
 		conn.Close(websocket.StatusUnsupportedData, "nickname illegal")
 		return
 	}
 
-	log.Println(logic.Broadcaster.CanEnterRoom(nickname))
 	if logic.Broadcaster.CanEnterRoom(nickname) {
-		log.Println("nickname 已存在", nickname)
 		wsjson.Write(request.Context(), conn, logic.NewErrorMessage("该昵称已经已存在！"))
 		conn.Close(websocket.StatusUnsupportedData, "nickname illegal")
 		return
@@ -54,19 +51,16 @@ func websocketHandleFunc(writer http.ResponseWriter, request *http.Request) {
 	logic.Broadcaster.Broadcast(msg)
 	// 4.将该用户加入到广播器列表中
 	logic.Broadcaster.UserEntering(user)
-	log.Println("user:", nickname, "joins chat")
 	// 接收用户消息
 	err = user.ReceiveMessage(request.Context())
 	// 用户离开
 	logic.Broadcaster.UserLeaving(user)
 	msg = logic.NewUserLeaveMessage(user)
 	logic.Broadcaster.Broadcast(msg)
-	log.Println("user:", nickname, "leave chat")
 	//根据读取时的错误执行不同的clsoe
 	if err == nil {
 		conn.Close(websocket.StatusNormalClosure, "")
 	} else {
-		log.Println("read from client error:", err)
 		conn.Close(websocket.StatusInternalError, "Read from client error")
 	}
 }
