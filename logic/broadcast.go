@@ -87,6 +87,7 @@ func (b *broadcaster) UserLeaving(u *User) {
 
 func (b broadcaster) Broadcast(msg *Message) {
 	if len(b.messageChannel) >= global.MessageQueueLen {
+		// 堵塞
 		log.Println("broadcast queue 满了")
 	}
 	b.messageChannel <- msg
