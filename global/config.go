@@ -1,7 +1,8 @@
 package global
 
 import (
-	"github.com/fsnotify/fsnotify"
+	"bytes"
+	"chatroom"
 	"github.com/spf13/viper"
 )
 
@@ -11,17 +12,21 @@ var (
 )
 
 func initConfig()  {
-	viper.SetConfigName("chatroom")
+
+	/*viper.SetConfigName("chatroom")
 	viper.AddConfigPath(RootDir+"/config")
-	err := viper.ReadInConfig()
+	err := viper.ReadInConfig()*/
+
+	viper.SetConfigType("yaml")
+	err := viper.ReadConfig(bytes.NewReader(chatroom.C))
 	if err != nil {
 		panic(err)
 	}
 	SensitiveWords = viper.GetStringSlice("sensitive")
 	MessageQueueLen = viper.GetInt("message-queue")
-	viper.WatchConfig()
+	/*viper.WatchConfig()
 	viper.OnConfigChange(func(in fsnotify.Event) {
 		viper.ReadInConfig()
 		SensitiveWords = viper.GetStringSlice("sensitive")
-	})
+	})*/
 }

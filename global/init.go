@@ -15,7 +15,7 @@ var once = new(sync.Once)
 
 func Init() {
 	once.Do(func() {
-		inferRootDir()
+		//inferRootDir()
 		initConfig()
 	})
 }

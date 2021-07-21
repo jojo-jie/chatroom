@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "chatroom"
 	"chatroom/global"
 	"chatroom/server"
 	"golang.org/x/sync/errgroup"

@@ -1,7 +1,7 @@
 package server
 
 import (
-	"chatroom/global"
+	"chatroom"
 	"chatroom/logic"
 	"encoding/json"
 	"fmt"
@@ -10,9 +10,9 @@ import (
 )
 
 func homeHandleFunc(writer http.ResponseWriter, request *http.Request) {
-	t, err := template.ParseFiles(global.RootDir + "/template/home.html")
+	t, err := template.ParseFS(chatroom.Tmpl, "template/home.html")
 	if err != nil {
-		fmt.Fprint(writer, "模板解析错误1")
+		fmt.Fprint(writer, "模板解析错误")
 		return
 	}
 	err = t.Execute(writer, nil)
@@ -20,6 +20,9 @@ func homeHandleFunc(writer http.ResponseWriter, request *http.Request) {
 		fmt.Fprint(writer, "模板解析错误")
 		return
 	}
+	/*writer.Header().Set("Content-Type", "text/html")
+	writer.WriteHeader(http.StatusBadRequest)
+	writer.Write(chatroom.Template)*/
 }
 
 func userListHandleFunc(writer http.ResponseWriter, request *http.Request) {
