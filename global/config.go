@@ -8,6 +8,7 @@ import (
 
 var (
 	SensitiveWords []string
+	AllowOrigins []string
 	MessageQueueLen  = 1024
 )
 
@@ -23,6 +24,7 @@ func initConfig()  {
 		panic(err)
 	}
 	SensitiveWords = viper.GetStringSlice("sensitive")
+	AllowOrigins = viper.GetStringSlice("allow-origin")
 	MessageQueueLen = viper.GetInt("message-queue")
 	/*viper.WatchConfig()
 	viper.OnConfigChange(func(in fsnotify.Event) {

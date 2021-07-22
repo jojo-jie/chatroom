@@ -1,6 +1,7 @@
 package server
 
 import (
+	"chatroom/global"
 	"chatroom/logic"
 	"log"
 	"net/http"
@@ -13,7 +14,7 @@ func websocketHandleFunc(writer http.ResponseWriter, request *http.Request) {
 	//Accept 从客户端接收websocket 握手，并连接升级到websocket
 	//如果 Origin 域与主机不同，Accept 将拒绝握手，除非设置了
 	//InsecureSkipVerify 第三个选项用于跨域访问设置
-	conn, err := websocket.Accept(writer, request, nil)
+	conn, err := websocket.Accept(writer, request, &websocket.AcceptOptions{OriginPatterns: global.AllowOrigins})
 	log.Printf("conn:%+v", unsafe.Pointer(conn))
 	if err != nil {
 		log.Println(err)
